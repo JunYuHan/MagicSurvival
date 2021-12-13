@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-	public bool ebaleSpawn = false;
-	public GameObject Enemy;
-	void Start()
-	{
-		InvokeRepeating("SpawnEnemy", 3, 1);
-	}
+    float RangeMax = 5.0f;
+    float RangeMin = -5.0f;
+    float Random = -5.0f;
+    BoxCollider2D RangeCollider;
+    void Awake()
+    {
+        RangeCollider = RangeCollider.GetComponent<BoxCollider2D>();
+    }
+    public GameObject enemy;
+    private void Start()
+    {
+        for (int i = 0; i < 1000; i++)
+            Instantiate(enemy, GetRandomPosition(), Quaternion.identity);
+    }
+    public Vector3 GetRandomPosition()
+    {
+        float radius = 3f;
+        Vector3 playerPosition = transform.position;
 
-	// Update is called once per frame
-	void Update()
-	{
+        float a = playerPosition.x;
+        float b = playerPosition.y;
 
-	}
-	void SpawnEnemy()
-	{
-		float randomX = Random.Range(-5f, 1f);
-		if (ebaleSpawn) 
-		{
-			GameObject enemy = (GameObject)Instantiate(Enemy, new Vector3(randomX, 1.1f, 0f), Quaternion.identity);
-		}
-	}
-}
+        float x = Random.Range(-radius + a, radius + a);
+        float y_b = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(x - a, 2));
+        y_b *= Random.(0, 2) == 0 ? -1 : 1;
+        float y = y_b + b;
+
+        Vector3 randomPosition = new Vector3(x, y, 0);
+
+        return randomPosition;
+    }
+
+
